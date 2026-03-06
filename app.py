@@ -1,6 +1,7 @@
 import streamlit as st
 import json
 import pandas as pd
+import os
 from automation import process_files
 from send_mail import send_email
 from database import get_zip_files
@@ -81,36 +82,39 @@ if menu == "Generate Report":
 
     if st.button("📄 Generate Report", key="generate_btn"):
 
-        with st.spinner("Generating report..."):
+        with st.spinner("Generating categorized reports..."):
 
             files = get_zip_files(company, month)
 
-            pdf = process_files(files)
+            if not files:
+                st.warning(f"No zip files found for {company} in {month}.")
+            else:
+                pdfs = process_files(files, company, month)
 
-        st.session_state["pdf_path"] = pdf
+                st.session_state["pdf_paths"] = pdfs
 
-        st.success("Report Generated Successfully")
+                st.success(f"Report Generated Successfully ({len(pdfs)} categories found)")
+                log(f"generate report {company} {month}")
 
-        log(f"generate report {company} {month}")
+    if "pdf_paths" in st.session_state:
 
-    if "pdf_path" in st.session_state:
+        st.write("### 📁 Generated Files:")
 
-        st.write("")
-
-        with open(st.session_state["pdf_path"], "rb") as f:
-
-            st.download_button(
-                "⬇ Download PDF",
-                f,
-                file_name=f"{company}_{month}_report.pdf",
-                key="download_pdf"
-            )
+        for pdf_path in st.session_state["pdf_paths"]:
+            with open(pdf_path, "rb") as f:
+                filename = os.path.basename(pdf_path)
+                st.download_button(
+                    label=f"⬇ Download {filename}",
+                    data=f,
+                    file_name=filename,
+                    key=f"download_{filename}"
+                )
 
     st.write("")
 
     if st.button("✉ Send Email", key="send_email_btn"):
 
-        if "pdf_path" not in st.session_state:
+        if "pdf_paths" not in st.session_state:
 
             st.error("Please generate report first")
 
@@ -118,57 +122,57 @@ if menu == "Generate Report":
 
             email = companies[company]
 
-            pdf = st.session_state["pdf_path"]
+            pdfs = st.session_state["pdf_paths"]
 
-            send_email(email, pdf)
+            send_email(email, pdfs)
 
-            st.success("Email Sent Successfully")
+            st.success("Email Sent Successfully with all attachments")
 
-            log(f"email sent {company} {month}")
+            log(f"email sent {company} {month} (Categorized)")
 
             st.write("")
-st.divider()
+            
+    st.divider()
 
-st.subheader("⚡ Auto Generate All Reports")
+    st.subheader("⚡ Auto Generate All Reports")
 
-if st.button("🚀 Generate ALL Reports (All Companies / All Months)"):
+    if st.button("🚀 Generate ALL Reports (All Companies / All Months)"):
 
-    months = [
-        "January","February","March","April","May","June",
-        "July","August","September","October","November","December"
-    ]
+        months = [
+            "January","February","March","April","May","June",
+            "July","August","September","October","November","December"
+        ]
 
-    total_jobs = len(companies) * len(months)
-    progress = st.progress(0)
+        total_jobs = len(companies) * len(months)
+        progress = st.progress(0)
 
-    job = 0
+        job = 0
 
-    for company_name, email in companies.items():
+        for company_name, email in companies.items():
 
-        for m in months:
+            for m in months:
 
-            try:
+                try:
 
-                files = get_zip_files(company_name, m)
+                    files = get_zip_files(company_name, m)
 
-                if not files:
-                    log(f"skip {company_name} {m} no files")
-                    continue
+                    if not files:
+                        log(f"skip {company_name} {m} no files")
+                    else:
+                        pdfs = process_files(files, company_name, m)
 
-                pdf = process_files(files)
+                        send_email(email, pdfs)
 
-                send_email(email, pdf)
+                        log(f"success {company_name} {m}")
 
-                log(f"success {company_name} {m}")
+                except Exception as e:
 
-            except Exception as e:
+                    log(f"error {company_name} {m} {str(e)}")
 
-                log(f"error {company_name} {m} {str(e)}")
+                job += 1
+                progress.progress(job / total_jobs)
 
-            job += 1
-            progress.progress(job / total_jobs)
-
-    st.success("🎉 All Reports Generated & Sent")
+        st.success("🎉 All Reports Generated & Sent")
 
 elif menu == "Report History":
 
