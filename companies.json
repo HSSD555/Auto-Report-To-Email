@@ -1,9 +1,34 @@
 {
- "CompanyA": "Egm83054@gmail.com",
- "CompanyB": "Egm83054@gmail.com",
- "CompanyC": "Egm83054@gmail.com",
- "CompanyD": "Egm83054@gmail.com",
- "CompanyE": "Egm83054@gmail.com",
- "CompanyF": "Egm83054@gmail.com",
- "CompanyG": "Egm83054@gmail.com"
+  "AYCAP": {
+    "email": "Egm83054@gmail.com",
+    "subject": "Fwd: FW: Monthly Traffic Circuit Report AYUINS_ {month_en}",
+    "body": "Dear Khun Puwanart,\n\nUIH Issue#: {issue_no}\nบริษัท อยุธยา แคปปิตอล เซอร์วิสเซส จำกัด\nบริษัท อลิอันซ์ อยุธยา ประกันภัย จำกัด (มหาชน)\n\nThe Service Desk (UIH) would like to send the Monthly Traffic Circuit Report for {month_en} as an attached file.",
+    "group_with": "AYUINS"
+  },
+  "AYUINS": {
+    "email": "Egm83054@gmail.com",
+    "subject": "Fwd: FW: Monthly Traffic Circuit Report AYUINS_ {month_en}",
+    "body": "Dear Khun Puwanart,\n\nUIH Issue#: {issue_no}\nบริษัท อยุธยา แคปปิตอล เซอร์วิสเซส จำกัด\nบริษัท อลิอันซ์ อยุธยา ประกันภัย จำกัด (มหาชน)\n\nThe Service Desk (UIH) would like to send the Monthly Traffic Circuit Report for {month_en} as an attached file.",
+    "group_with": "AYCAP"
+  },
+  "kwangpaisarn": {
+    "email": "Egm83054@gmail.com",
+    "subject": "FW: Monthly Traffic Circuit Report Kwangpaisarn_{month_en}",
+    "body": "Dear Khun Boonchai , Khun Nirapan,\n\nRef. UIH Issue#: {issue_no}\n\nThe Service Desk (UIH) would like to send the Monthly Traffic Circuit Report for {month_en} as an attached file."
+  },
+  "pea": {
+    "email": "Egm83054@gmail.com",
+    "subject": "FW: Monthly Traffic Circuit Report PEA_{month_en}",
+    "body": "Dear Khun Attapol,\n\nRef. UIH Issue#: {issue_no}\n\nThe Service Desk (UIH) would like to send the Monthly Traffic Circuit Report for {month_en} as an attached file."
+  },
+  "BOONRAWD_BREWERY": {
+    "email": "Egm83054@gmail.com",
+    "subject": "FW: Monthly Traffic Circuit Report BOONRAWD_BREWERY_{month_en}",
+    "body": "Dear IT Network,\n\nRef. UIH Issue#: {issue_no}\n\nThe Service Desk (UIH) would like to send the Monthly Traffic Circuit Report for {month_en} as an attached file."
+  },
+  "TMB_TRUE": {
+    "email": "Egm83054@gmail.com",
+    "subject": "FW: Monthly Traffic Circuit Report True_TMB_{month_en}",
+    "body": "Dear Khun Ning,\n\nUIH Issue#: {issue_no}\n\nThe Service Desk (UIH) would like to send the Monthly Traffic Circuit Report for {month_en} as an attached file."
+  }
 }
